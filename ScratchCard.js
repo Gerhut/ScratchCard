@@ -27,9 +27,8 @@
     var rect = element.getBoundingClientRect();
     canvas.width = rect.width || rect.right - rect.left
     canvas.height = rect.height || rect.bottom - rect.top;
-    ['top', 'left'].forEach(function (key) {
-      canvas.style[key] = rect[key] + 'px';
-    });
+    canvas.style.top = rect.top + 'px';
+    canvas.style.left = rect.left + 'px';
     canvas.style.position = 'absolute';
     canvas.style.zIndex = +element.style.zIndex + 1;
 
