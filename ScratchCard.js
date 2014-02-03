@@ -45,16 +45,9 @@
   if (typeof module == 'object' && module.exports) {
     // Node.js module
     module.exports = ScratchCard;
-  } else if (typeof define == 'function' && define.amd) {
-    // RequireJS module
-    define('ScratchCard', [], function () {
-      return ScratchCard;
-    });
-  } else if (typeof define == 'function' && define.cmd) {
-    // Sea.js module
-    define(function (require, exports, module) {
-      module.exports = ScratchCard;
-    });
+  } else if (typeof define == 'function' && (define.amd || define.cmd)) {
+    // AMD or CMD module
+    define(ScratchCard);
   } else if (typeof jQuery == 'function' && typeof jQuery.extend == 'function') {
     // jQuery plugin
     jQuery.fn.extend({
