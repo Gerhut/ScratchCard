@@ -4,10 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>ScratchCard Demo</title>
+  <style>
+  div {
+  	display: inline-block;
+  	padding: 5px;
+  	border: 1px solid black;
+  }
+  span {
+  	font-size: 20px;
+  }
+  </style>
 </head>
 <body>
-  <span id="sceatchable">Hooray! $300</span>
+  <div><span id="sceatchable">Hooray! $300</span></div>
   <script src="ScratchCard.js"></script>
-  <script>ScratchCard(document.querySelector('#sceatchable'));</script>
+  <script>ScratchCard(document.querySelector('span'));</script>
 </body>
 </html>
