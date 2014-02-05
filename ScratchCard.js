@@ -54,8 +54,7 @@
       context.fill();
 
       canvas.addEventListener('mousemove', scratchMove);
-      canvas.addEventListener('mouseup', scratchEnd);
-      canvas.addEventListener('mouseout', scratchEnd);
+      document.addEventListener('mouseup', scratchEnd);
     }
 
     function scratchMove(event) {
@@ -69,8 +68,7 @@
 
     function scratchEnd(event) {
       canvas.removeEventListener('mousemove', scratchMove);
-      canvas.removeEventListener('mouseup', scratchEnd);
-      canvas.removeEventListener('mouseout', scratchEnd);
+      document.removeEventListener('mouseup', scratchEnd);
     }
 
     canvas.addEventListener('mousedown', scratchStart);
