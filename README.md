@@ -23,7 +23,7 @@ HTML5 Canvas实现的刮刮卡
 参数
 ----
 
-```json
+```js
 options = {
   'color': 'gray', // 刮刮卡颜色
   'radius': 5 // 擦除半径
