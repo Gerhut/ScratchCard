@@ -98,8 +98,10 @@
   } else if (typeof jQuery == 'function' && typeof jQuery.extend == 'function') {
     // jQuery plugin
     jQuery.fn.extend({
-      'ScratchCard': function ($elements) {
-        return $elements.each(ScratchCard);
+      'ScratchCard': function (options) {
+        return this.each(function (element) {
+          ScratchCard(element, options);
+        });
       }
     });
   } else if (typeof angular == 'object' && typeof angular.module == 'function') {
