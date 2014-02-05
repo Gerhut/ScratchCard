@@ -92,14 +92,14 @@
       .value('ScratchCard', ScratchCard);
   } else {
     // Apply to a global variable.
-    if (this.ScratchCard) {
+    if (global.ScratchCard) {
       (function (oldScratchCard) {
         ScratchCard.noConflict = function () {
-          this.ScratchCard = oldScratchCard;
+          global.ScratchCard = oldScratchCard;
           return ScratchCard;
         };
-      }) (this.ScratchCard);
+      }) (global.ScratchCard);
     }
-    this.ScratchCard = ScratchCard;
+    global.ScratchCard = ScratchCard;
   }
 }).call(this);
