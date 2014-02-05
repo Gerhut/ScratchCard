@@ -36,37 +36,56 @@
     var context = canvas.getContext('2d');
     context.fillStyle = options.color;
     context.fillRect(0, 0, canvas.width, canvas.height);
-    context.fillStyle = 'transparent';
-    context.globalCompositeOperation = "destination-in";
+    context.globalCompositeOperation = "destination-out";
+    context.strokeStyle = "rgba(0,0,0,1)";
 
     // add mouse events to canvas
     // TODO: supply touch events
-    canvas.addEventListener('mousedown', function (event) {
+    // TODO: scratch from the outside
+    function scratchStart(event) {
       if (event.button != 0) // not left button
         return;
 
-      function scratch(event) {
-        var x = event.offsetX || event.layerX;
-        var y = event.offsetY || event.layerY;
-        context.beginPath();
-        context.arc(x, y, options.radius, 0, Math.PI *2);
-        context.fill();
-      }
+      var x = event.offsetX || event.layerX;
+      var y = event.offsetY || event.layerY;
 
-      function onMousemove(event) {
-        scratch(event);
-      }
+      context.beginPath();
+      context.arc(x, y, options.radius, 0, Math.PI * 2);
+      context.fill();
 
-      function onMouseup(event) {
-        canvas.removeEventListener('mousemove', onMousemove);
-        canvas.removeEventListener('mouseup', onMouseup);
-      }
+      canvas.addEventListener('mousemove', scratchMove);
+      canvas.addEventListener('mouseup', scratchEnd);
+      canvas.addEventListener('mouseout', scratchEnd);
+    }
 
-      canvas.addEventListener('mousemove', onMousemove);
-      canvas.addEventListener('mouseup', onMouseup);
+    function scratchMove(event) {
+      var x = event.offsetX || event.layerX;
+      var y = event.offsetY || event.layerY;
 
-      scratch(event);
-    });
+      context.beginPath();
+      context.arc(x, y, options.radius, 0, Math.PI * 2);
+      context.fill();
+    }
+
+    function scratchEnd(event) {
+      canvas.removeEventListener('mousemove', scratchMove);
+      canvas.removeEventListener('mouseup', scratchEnd);
+      canvas.removeEventListener('mouseout', scratchEnd);
+    }
+
+    canvas.addEventListener('mousedown', scratchStart);
+
+    // disable element interaction
+    ['MozUserSelect',
+     'msUserSelect',
+     'oUserSelect',
+     'webkitUserSelect',
+     'pointerEvents']
+      .filter(function (cssProp) {
+        return cssProp in element.style;
+      }).forEach(function (cssProp) {
+        element.style[cssProp] = 'none';
+      });
 
     // append canvas to body.
     document.body.appendChild(canvas);
