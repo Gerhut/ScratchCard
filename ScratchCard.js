@@ -5,7 +5,7 @@
     // apply default arguments.
     var defaultOptions = {
       'color': 'gray',
-      'thickness': '1'
+      'radius': 5
     };
     if (options) {
       for (var key in defaultOptions) {
@@ -36,6 +36,37 @@
     var context = canvas.getContext('2d');
     context.fillStyle = options.color;
     context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = 'transparent';
+    context.globalCompositeOperation = "destination-in";
+
+    // add mouse events to canvas
+    // TODO: supply touch events
+    canvas.addEventListener('mousedown', function (event) {
+      if (event.button != 0) // not left button
+        return;
+
+      function scratch(event) {
+        var x = event.offsetX || event.layerX;
+        var y = event.offsetY || event.layerY;
+        context.beginPath();
+        context.arc(x, y, options.radius, 0, Math.PI *2);
+        context.fill();
+      }
+
+      function onMousemove(event) {
+        scratch(event);
+      }
+
+      function onMouseup(event) {
+        canvas.removeEventListener('mousemove', onMousemove);
+        canvas.removeEventListener('mouseup', onMouseup);
+      }
+
+      canvas.addEventListener('mousemove', onMousemove);
+      canvas.addEventListener('mouseup', onMouseup);
+
+      scratch(event);
+    });
 
     // append canvas to body.
     document.body.appendChild(canvas);
